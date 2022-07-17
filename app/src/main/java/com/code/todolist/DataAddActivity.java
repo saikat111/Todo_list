@@ -18,7 +18,7 @@ public class DataAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDataAddBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        binding.submit.setBackgroundColor(0xFFFF0000);
         String type = getIntent().getStringExtra("type");
 
         if(type.equals("update")){
