@@ -1,10 +1,13 @@
 package com.code.todolist;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,DataAddActivity.class);
+                intent.putExtra("type", "addMode");
                 startActivityForResult(intent,1);
             }
         });
@@ -43,6 +47,29 @@ public class MainActivity extends AppCompatActivity {
                 adapter.submitList(notes);
             }
         });
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                if(direction == ItemTouchHelper.RIGHT){
+                    noteViewModel.delete(adapter.getNode(viewHolder.getAdapterPosition()));
+                    Toast.makeText(getApplication(), "Note deleted", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent intent = new Intent(MainActivity.this,DataAddActivity.class);
+                    intent.putExtra("type", "update");
+                    intent.putExtra("title", adapter.getNode(viewHolder.getAdapterPosition()).getTitle());
+                    intent.putExtra("text", adapter.getNode(viewHolder.getAdapterPosition()).getDescription());
+                    intent.putExtra("id", adapter.getNode(viewHolder.getAdapterPosition()).getId());
+                    startActivityForResult(intent,2);
+                }
+
+            }
+        }).attachToRecyclerView(binding.recyclerView);
     }
 
     @Override
