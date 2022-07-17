@@ -83,5 +83,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Note Added", Toast.LENGTH_SHORT).show();
 
         }
+        else if(requestCode ==2){
+            String title = data.getStringExtra("title");
+            String text = data.getStringExtra("text");
+            Note note = new Note(title,text);
+            note.setId(data.getIntExtra("id", 0));
+            noteViewModel.update(note);
+            Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
+        }
     }
 }

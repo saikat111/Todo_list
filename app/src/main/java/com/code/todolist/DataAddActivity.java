@@ -29,12 +29,24 @@ public class DataAddActivity extends AppCompatActivity {
             binding.te.setText(text);
             int id = getIntent().getIntExtra("id",0);
             binding.submit.setText("Update note");
-        }
-        else{
             binding.submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    setTitle("Add Note");
+                    Intent intent = new Intent();
+                    intent.putExtra("title",binding.t.getText().toString());
+                    intent.putExtra("text", binding.te.getText().toString());
+                    intent.putExtra("id",id);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }
+            });
+        }
+        else{
+            setTitle("Add Note");
+            binding.submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
                     Intent intent = new Intent();
                     intent.putExtra("title",binding.t.getText().toString());
                     intent.putExtra("text", binding.te.getText().toString());
