@@ -4,7 +4,9 @@ plugins {
 
 android {
     compileSdk 32
-
+    buildFeatures {
+        viewBinding true
+    }
     defaultConfig {
         applicationId "com.code.todolist"
         minSdk 21
