@@ -18,5 +18,5 @@ public interface NoteDao {
     @Delete
     public void delete(Note note);
     @Query("SELECT *FROM my_notes")
-    public LiveData<List<Note>> getAllData(Note note);
+    public LiveData<List<Note>> getAllData();
 }
